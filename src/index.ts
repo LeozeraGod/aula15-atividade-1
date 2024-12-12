@@ -6,15 +6,20 @@
 
 
 function gerarSenhaAleatoria(): string {
-    const caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.#/?@";
+    const caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.#/?@"; 
+    //Juntei todos os caracteres em uma única string 
 
     let senha = "";
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) { //Defini um for para ele iterar 10 vezes para ter a senha com 10 caracteres 
+                                    //usando a variável i como contador
+    //Dentro do for, a linha tem que gerar caracteres aleatórios dentro da variável (senha)
       senha += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
-    }
 
+
+    }
+    //retorna a senha 
     return senha;
   }
-
+//Cria um array com 5 elementos 
   const senhas = Array(5).fill(null).map(() => gerarSenhaAleatoria());
   console.log(senhas);
