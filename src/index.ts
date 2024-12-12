@@ -6,20 +6,48 @@
 
 
 function gerarSenhaAleatoria(): string {
-    const caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.#/?@"; 
-    //Juntei todos os caracteres em uma única string 
+    const letrasMaiusculas = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const letrasMinusculas = 'abcdefghijklmnopqrstuvwxyz';
+    const numeros = '0123456789';
+    const caracteresEspeciais = '.#/?@';
 
-    let senha = "";
-    for (let i = 0; i < 10; i++) { //Defini um for para ele iterar 10 vezes para ter a senha com 10 caracteres 
-                                    //usando a variável i como contador
-    //Dentro do for, a linha tem que gerar caracteres aleatórios dentro da variável (senha)
-      senha += caracteres.charAt(Math.floor(Math.random() * caracteres.length));
+    // Garantindo que a senha tenha pelo menos 2 maiúsculas, 2 minúsculas, 2 números e 1 caractere especial
+    let senha = '';
+    senha += obterCaracteresAleatorios(letrasMaiusculas, 2);
+    senha += obterCaracteresAleatorios(letrasMinusculas, 2);
+    senha += obterCaracteresAleatorios(numeros, 2);
+    senha += obterCaracteresAleatorios(caracteresEspeciais, 1);
 
+    // Preencher o restante da senha com caracteres aleatórios
+    const todosOsCaracteres = letrasMaiusculas + letrasMinusculas + numeros + caracteresEspeciais;
+    const comprimentoRestante = 10 - senha.length;
+    senha += obterCaracteresAleatorios(todosOsCaracteres, comprimentoRestante);
 
+    // Embaralhar a senha para garantir que os caracteres não estejam em ordem
+    return embaralharString(senha);
+}
+
+function obterCaracteresAleatorios(caracteres: string, comprimento: number): string {
+    let resultado = '';
+    for (let i = 0; i < comprimento; i++) {
+        const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+        resultado += caracteres[indiceAleatorio];
     }
-    //retorna a senha 
-    return senha;
-  }
-//Cria um array com 5 elementos 
-  const senhas = Array(5).fill(null).map(() => gerarSenhaAleatoria());
-  console.log(senhas);
+    return resultado;
+}
+
+function embaralharString(string: string): string {
+    return string.split('').sort(() => Math.random() - 0.5).join('');
+}
+
+function gerarMultiplaSenhas(contagem: number): string[] {
+    const senhas: string[] = [];
+    for (let i = 0; i < contagem; i++) {
+        senhas.push(gerarSenhaAleatoria());
+    }
+    return senhas;
+}
+
+// Gerar 5 senhas
+const senhas = gerarMultiplaSenhas(5);
+console.log(senhas);
